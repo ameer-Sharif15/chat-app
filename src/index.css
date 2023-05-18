@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.box-shadow {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.addBox {
+    /* position: absolute; */
+    width: 582.02px;
+    /* left: 391.96px;
+    top: 137.74px; */
+    padding: 34px 44px 13px 44px;
+    background: #120F13;
+    border-radius: 24px;
+    z-index: 2;
+}
+.sideBox {
+    position: absolute;
+    z-index: 2;
+}
+.menu {
+    position: absolute;
+    top: 13px;
+    left: 17px;
+    cursor: pointer;
+    display: none;
+}
+.close {
+    position: absolute;
+    right: 10px;
+}
+
+.scrollBar::-webkit-scrollbar {
+    display: none;
+} 
+
+.addText {
+    font-family: 'Noto Sans';
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    color: #F2F2F2;
+    margin-bottom: 26.63px;
+}
+
+.addInput {
+    margin-bottom: 26.63px;
+    background: #3C393F;
+    border-radius: 8px;
+    height: 48px;
+    width: 100%;
+    padding-left: 15.54px;
+    color: #fff;
+    outline: none;
+}
+.addInput2 {
+    margin-bottom: 26.63px;
+    background: #3C393F;
+    border-radius: 8px;
+    height: 115.55px;
+    width: 100%;
+    padding-left: 15.54px;
+    color: #fff;
+    outline: none;
+}
+
+.addBtn { 
+    width: 99.09px;
+    height: 39.34px;
+    background: #2F80ED;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: -0.035em;
+    color: #F2F2F2;
+    padding-top: 7px;
+    padding-left: 30px;
+    float: right;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 415px) {
+    .navBox{ 
+        display: none;
+    }
+
+    .menu {
+        display: block;
+    }
+}
