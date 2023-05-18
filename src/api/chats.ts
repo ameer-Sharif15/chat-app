@@ -59,4 +59,4 @@ export const createChats = (newVal: {text: string,
 }
 
 
-// localStorage.removeItem('channels')
+// localStorage.removeItem('chats')

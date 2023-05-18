@@ -7,6 +7,7 @@ const storedItem: string | null = localStorage.getItem('users')
 
 const itemsGrp: [any] = storedItem ? JSON.parse(storedItem): [];
 
+
 class UsersRepository{
     filename: {}
     constructor(filename: {}) {
@@ -53,7 +54,7 @@ class UsersRepository{
         id: number
     }) {
         const records = this.getAll();
-        const record = records.find(record => record.id === id)
+        const record = records.find((record: any) => record.id === id)
         if (!record) {
             throw new Error(`Record with the id ${id} not found`)
         }
@@ -75,7 +76,7 @@ class UsersRepository{
             }
         }
     }
-     getIsTrue(filters: any) {
+     getIsTrue(filters:any) {
         const records =  this.getAll();
         let found
         for (let record of records) {
@@ -99,12 +100,6 @@ export const repo = new UsersRepository({})
 
 
 
-export const createUsers = (newVal: {name: string, password: string, email: string, id: number}) => {
-    const repo = new UsersRepository({})
-    repo.create(newVal)
-    const items = repo.getAll()
-    localStorage.setItem("users", JSON.stringify(items));
-}
 
 
 
@@ -118,4 +113,4 @@ export const createUsersId = (id: number, attrs: {
         localStorage.setItem("list", JSON.stringify(items))
 }
 
-// localStorage.removeItem('list')
+// localStorage.removeItem('chats')

@@ -7,7 +7,7 @@ const Channel = ({setChannel, channel, grpName, descText, id}: {setChannel: any,
     const items: [any] = storedItem ? JSON.parse(storedItem): [];
     
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col h-[93%]'>
         <div className="flex  w-full py-[17.24px] 
         px-[32.99px] bg-[#120F13] box-shadow mb-[18.58px]" style={{height: '65px'}}>
             <IoIosArrowBack 
@@ -15,7 +15,7 @@ const Channel = ({setChannel, channel, grpName, descText, id}: {setChannel: any,
             style={{marginRight: '22.78px', color: 'white', alignSelf: 'center', cursor: 'pointer'}} />
             <p className='text-base text-white'>All channels</p>
         </div>
-        <div className="flex flex-col pl-[32.99px]">
+        <div className="flex flex-col pl-[32.99px] ">
         <p className='text-base text-white'>{grpName}</p>
         <p style={{background: 'transparent',height: 'auto' ,width: '223px', marginBottom:'7px',
          color: 'white', overflow: 'hidden', ...(descText === '' ? {display: 'none'}: {display: 'block'}),

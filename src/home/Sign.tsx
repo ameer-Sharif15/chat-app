@@ -4,7 +4,24 @@ import { ameer } from '../assets';
 import { MdEmail } from 'react-icons/md'
 import { CiUser } from 'react-icons/ci'
 import { useNavigate } from "react-router-dom";
-import { createUsers, repo } from '../api/users';
+import {  repo } from '../api/users';
+import { collection, addDoc,getDocs } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { useStateContext } from '../context/ContextProvider';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD3tTugYKXX5wZ-9wRqjR4NawWv2XvM6hI",
+  authDomain: "chat-app-8774b.firebaseapp.com",
+  projectId: "chat-app-8774b",
+  storageBucket: "chat-app-8774b.appspot.com",
+  messagingSenderId: "1028840332654",
+  appId: "1:1028840332654:web:095c576d02a017e841b57f",
+  measurementId: "G-7QT4PLDWX4"
+};
+
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 
 const Sign = () => {
   const [toggleSign, setToggleSign] = useState(true);
@@ -13,10 +30,12 @@ const Sign = () => {
   const [password, setPassword] = useState<string>('')
   const [cheEmail, setCheEmail] = useState<string>('')
   const [chePassword, setChePassword] = useState<string>('')
+  const { idSet, setIdSet , setNameItem, nameItem,profileName , setProfilename } = useStateContext()
+
 
 
     const navigate = useNavigate()
-  const handleAdd =  (e: any) => {
+  const handleAdd = async (e: any) => {
     e.preventDefault()
     const randomNumber = Math.floor(Math.random() * 99999999)
     const newVal: {
@@ -30,10 +49,29 @@ const Sign = () => {
         password: password,
         id: randomNumber
     }
-    createUsers(newVal)
+    const docRef = await addDoc(collection(db, "users"), newVal);
+    console.log("Document written with ID: ", docRef.id);
+    
+    const querySnapshot = await getDocs(collection(db, "users"));
+      querySnapshot.forEach((doc) => {
+        const users = []
+        users.push([doc.data()])
+        localStorage.setItem("users", JSON.stringify(users));
+        console.log(users)
+    });
+
+      if (docRef) {
+        setCheEmail(email)
+          setChePassword(password)
+          setToggleSign(!toggleSign)
+          setProfilename(name)
+      }
+      navigate('/home')
+     
+
   }
 
-  const handleCheck =  (e: any) => {
+  const handleCheck = async  (e: any) => {
     e.preventDefault()
     const newVal: {
       email: string,
@@ -44,6 +82,7 @@ const Sign = () => {
     }
         const item = repo.getOneBy(newVal)
         const isCorrect =  repo.getIsTrue(newVal)
+       
         if (isCorrect) {
          const idd = item.id
          localStorage.setItem('id', JSON.stringify(idd))
@@ -55,33 +94,33 @@ const Sign = () => {
 
   return (
     <div
-      className="w-[470.83px]  border border-[#BDBDBD] dark:border-[#BDBDBD] 
+      className="w-[470.83px]  border border-[#BDBDBD]  
          rounded-3xl pt-[49px] bg-white my-[22px] mx-[auto]
-        dark:bg-[#333333] px-[58.78px]  flex flex-col"
+         px-[58.78px]  flex flex-col"
     >
       <div className="flex mb-[33.53px] items-center">
-        <img
+        {/* <img
           src={ameer}
           alt="logo"
           style={{ width: "36.87px", height: "36px" }}
-        />
-        <h1 className="text-[#333333] dark:text-[#E0E0E0]">devchallenges</h1>
+        /> */}
+        <h1 className="text-[#333333] font-bold text-2xl">Chat App</h1>
       </div>
       {toggleSign ? (
         <div className="flex flex-col  text-red-100 ">
           <h2
             className="text-[18px] font-sans leading-6 font-[600] 
-               tracking-[-0.035em] w-[318.88px] mb-[14.5px] text-[#333333] dark:text-[#E0E0E0]"
+               tracking-[-0.035em] w-[318.88px] mb-[14.5px] text-[#333333] "
           >
-            Join thousands of learners from <br /> around the world
+            Join thousands of people from <br /> around the world
           </h2>
           <form onSubmit={(e) => handleAdd(e)} className="flex flex-col mb-[31.58px]">
             <div className="flex relative mb-[14px]">
               <CiUser className="absolute top-[14px] left-2 text-[20px]  fill-slate-400" />
               <input
                 type="type"
-                className="flex h-[48px] w-[369.06px] dark:text-white 
-                           outline-none xs:w-[356.43px] dark:bg-[#333333] pl-8 text-black border"
+                className="flex h-[48px] w-[369.06px]  
+                           outline-none xs:w-[356.43px]  pl-8 text-black border"
                 placeholder="Username"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -92,8 +131,8 @@ const Sign = () => {
               <MdEmail className="absolute top-[14px] left-2 text-[20px]  fill-slate-400" />
               <input
                 type="email"
-                className="flex h-[48px] w-[369.06px] dark:text-white 
-                           outline-none xs:w-[356.43px] dark:bg-[#333333] pl-8 text-black border"
+                className="flex h-[48px] w-[369.06px]  
+                           outline-none xs:w-[356.43px]  pl-8 text-black border"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -105,7 +144,7 @@ const Sign = () => {
               <input
                 type="password"
                 className="flex h-[48px] outline-none w-[369.06px]
-                            dark:text-white xs:w-[356.43px] dark:bg-[#333333] pl-8 text-black border"
+                             xs:w-[356.43px]  pl-8 text-black border"
                 placeholder="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -147,7 +186,7 @@ const Sign = () => {
         <div className="flex flex-col  text-red-100 ">
           <h2
             className="text-[18px] font-sans leading-6 font-[600] 
-           tracking-[-0.035em] w-[318.88px] mb-[14.5px] text-[#333333] dark:text-[#E0E0E0]"
+           tracking-[-0.035em] w-[318.88px] mb-[14.5px] text-[#333333] "
           >
             Login
           </h2>
@@ -156,8 +195,8 @@ const Sign = () => {
               <MdEmail className="absolute top-[14px] left-2 text-[20px]  fill-slate-400" />
               <input
                 type="email"
-                className="flex h-[48px] dark:text-white 
-                       outline-none w-[356.43px] dark:bg-[#333333] pl-8 text-black border"
+                className="flex h-[48px]  
+                       outline-none w-[356.43px]  pl-8 text-black border"
                 placeholder="Email"
                 required
                 value={cheEmail}
@@ -169,7 +208,7 @@ const Sign = () => {
               <input
                 type="password"
                 className="flex h-[48px] outline-none
-                        dark:text-white w-[356.43px] dark:bg-[#333333] pl-8 text-black border"
+                         w-[356.43px]  pl-8 text-black border"
                 placeholder="password"
                 required
                 value={chePassword}
@@ -197,7 +236,7 @@ const Sign = () => {
               leading-[19px]  tracking-[-0.035em] 
               text-[#828282]"
             >
-              Adready a member?
+              New member?
             </p>
             <p
               className="cursor-pointer"

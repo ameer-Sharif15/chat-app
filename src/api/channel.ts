@@ -1,3 +1,4 @@
+import {channelsppl} from '../helper/data'
 const storedItem: string | null = localStorage.getItem('channels')
 
 const itemsGrp: [any] = storedItem ? JSON.parse(storedItem): [];
@@ -12,14 +13,10 @@ class UsersRepository{
         this.filename = filename;
     }
      getAll() {
-        return  itemsGrp;
+        return itemsGrp.concat(channelsppl);
     }
 
-     create(attrs: {
-        name: string,
-        desc: string,
-        id: number
-    }) {
+     create(attrs: any) {
         const records =  this.getAll();
         records.push(attrs);
 
@@ -47,7 +44,7 @@ export const createGroup = (newVal: {name: string, desc: string, id: number}) =>
     const repo = new UsersRepository({})
     repo.create(newVal)
     const items = repo.getAll()
-    localStorage.setItem("channels", JSON.stringify(items));
+    localStorage.setItem("channels", JSON.stringify(channelsppl));
 }
 
 
